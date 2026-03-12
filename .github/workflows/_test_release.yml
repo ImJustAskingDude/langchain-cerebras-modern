@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 env:
-  POETRY_VERSION: "1.7.1"
-  PYTHON_VERSION: "3.11"
+  POETRY_VERSION: "2.3.2"
+  PYTHON_VERSION: "3.13"
 
 jobs:
   build:
@@ -68,6 +68,7 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
+    environment: testpypi
     permissions:
       # This permission is used for trusted publishing:
       # https://blog.pypi.org/posts/2023-04-20-introducing-trusted-publishers/

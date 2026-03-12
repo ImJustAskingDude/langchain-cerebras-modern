@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 env:
-  POETRY_VERSION: "1.7.1"
+  POETRY_VERSION: "2.3.2"
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
       matrix:
         python-version:
           - "3.11"
-          - "3.12"
+          - "3.13"
     name: "poetry run pytest -m compile tests/integration_tests #${{ matrix.python-version }}"
     steps:
       - uses: actions/checkout@v4

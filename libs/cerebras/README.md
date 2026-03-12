@@ -1,6 +1,8 @@
-# Langchain-Cerebras
+# LangChain Cerebras Modern
 
-This package contains the LangChain integration with Cerebras.
+This package is a compatibility fork of the LangChain integration with Cerebras.
+It keeps the same import path, `langchain_cerebras`, while publishing under a
+separate distribution name for modern LangChain releases and Python 3.13.
 
 At Cerebras, we've developed the world's largest and fastest AI processor, the Wafer-Scale Engine-3 (WSE-3). The Cerebras CS-3 system, powered by the WSE-3, represents a new class of AI supercomputer that sets the standard for generative AI training and inference with unparalleled performance and scalability.
 
@@ -18,7 +20,7 @@ For more information about Cerebras Cloud, visit [cloud.cerebras.ai](https://clo
 ## Installation
 
 ```bash
-pip install langchain-cerebras
+pip install langchain-cerebras-modern
 ```
 
 ## API Key

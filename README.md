@@ -1,5 +1,6 @@
 # 🦜️🔗 LangChain Cerebras
 
-This repository contains 1 package with Cerebras integrations with LangChain:
+This repository contains a compatibility fork of the Cerebras integration for
+modern LangChain releases and Python 3.13.
 
-- [langchain-cerebras](https://pypi.org/project/langchain-cerebras/)
+- [langchain-cerebras-modern](https://pypi.org/project/langchain-cerebras-modern/)

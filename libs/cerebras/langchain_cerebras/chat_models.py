@@ -37,10 +37,11 @@ class ChatCerebras(BaseChatOpenAI):
     r"""ChatCerebras chat model.
 
     Setup:
-        Install `langchain-cerebras` and set environment variable `CEREBRAS_API_KEY`.
+        Install `langchain-cerebras-modern` and set environment variable
+        `CEREBRAS_API_KEY`.
 
         ```bash
-        pip install -U langchain-cerebras
+        pip install -U langchain-cerebras-modern
         export CEREBRAS_API_KEY="your-api-key"
         ```
 

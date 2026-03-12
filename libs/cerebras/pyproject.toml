@@ -3,22 +3,27 @@ skip = ".git,*.pdf,*.svg,*.pdf,*.yaml,*.ipynb,poetry.lock,*.min.js,*.css,package
 ignore-words-list = "mane"
 
 [tool.poetry]
-name = "langchain-cerebras"
-version = "0.8.2"
-description = "An integration package connecting Cerebras and LangChain"
+name = "langchain-cerebras-modern"
+version = "0.8.2.post1"
+description = "A compatibility fork of the Cerebras LangChain integration for modern LangChain and Python 3.13"
 authors = []
 readme = "README.md"
-repository = "https://github.com/langchain-ai/langchain-cerebras"
 license = "MIT"
-
-[tool.poetry.urls]
-"Source Code" = "https://github.com/langchain-ai/langchain-cerebras/tree/master/libs/cerebras"
-"Release Notes" = "https://github.com/langchain-ai/langchain-cerebras/releases"
+homepage = "https://github.com/ImJustAskingDude/langchain-cerebras-modern"
+repository = "https://github.com/ImJustAskingDude/langchain-cerebras-modern"
+packages = [{ include = "langchain_cerebras" }]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
-langchain-core = "^1.1.0"
-langchain-openai = "^1.0.2"
+python = ">=3.11,<3.14"
+langchain-core = ">=1.2.18,<2.0.0"
+langchain-openai = ">=1.1.11,<2.0.0"
 
 [tool.poetry.group.test]
 optional = true
@@ -93,3 +98,8 @@ markers = [
   "compile: mark placeholder test used to compile integration tests without running them",
 ]
 asyncio_mode = "auto"
+
+[tool.poetry.urls]
+Homepage = "https://github.com/ImJustAskingDude/langchain-cerebras-modern"
+Repository = "https://github.com/ImJustAskingDude/langchain-cerebras-modern"
+Issues = "https://github.com/ImJustAskingDude/langchain-cerebras-modern/issues"
