@@ -176,6 +176,10 @@ jobs:
       - name: Run integration tests
         env:
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          CEREBRAS_TEST_STANDARD_MODEL: ${{ vars.CEREBRAS_TEST_STANDARD_MODEL }}
+          CEREBRAS_TEST_ZAI_MODEL: ${{ vars.CEREBRAS_TEST_ZAI_MODEL }}
+          CEREBRAS_TEST_NON_REASONING_MODEL: ${{ vars.CEREBRAS_TEST_NON_REASONING_MODEL }}
+          CEREBRAS_TEST_GPT_OSS_MODEL: ${{ vars.CEREBRAS_TEST_GPT_OSS_MODEL }}
         run: make integration_tests
         working-directory: ${{ inputs.working-directory }}
 

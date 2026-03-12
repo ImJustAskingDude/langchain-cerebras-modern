@@ -564,12 +564,17 @@ class ChatCerebras(BaseChatOpenAI):
         if self.n is not None and self.n > 1 and self.streaming:
             raise ValueError("n must be 1 when streaming.")
 
+        api_key = (
+            self.cerebras_api_key.get_secret_value() if self.cerebras_api_key else None
+        )
+        if not api_key:
+            raise ValueError(
+                "ChatCerebras requires a Cerebras API key. "
+                "Pass `api_key=` or set the `CEREBRAS_API_KEY` environment variable."
+            )
+
         client_params = {
-            "api_key": (
-                self.cerebras_api_key.get_secret_value()
-                if self.cerebras_api_key
-                else None
-            ),
+            "api_key": api_key,
             # Ensure we always fallback to the Cerebras API url.
             "base_url": self.cerebras_api_base,
             "timeout": self.request_timeout,

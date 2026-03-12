@@ -8,6 +8,7 @@ from langchain_core.tools import BaseTool
 from langchain_tests.integration_tests import ChatModelIntegrationTests
 
 from langchain_cerebras import ChatCerebras
+from tests.integration_tests import get_standard_chat_model_params
 
 
 class TestCerebrasStandard(ChatModelIntegrationTests):
@@ -17,7 +18,7 @@ class TestCerebrasStandard(ChatModelIntegrationTests):
 
     @property
     def chat_model_params(self) -> dict:
-        return {"model": "gpt-oss-120b"}
+        return get_standard_chat_model_params()
 
     @pytest.mark.xfail(reason=("Array input not supported"))
     def test_tool_message_histories_list_content(

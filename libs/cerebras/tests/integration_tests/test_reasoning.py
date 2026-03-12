@@ -1,9 +1,15 @@
 import logging
 import os
 
+import pytest
 from dotenv import load_dotenv
 
 from langchain_cerebras import ChatCerebras
+from tests.integration_tests import (
+    get_non_reasoning_model_params,
+    get_zai_reasoning_model,
+    require_cerebras_api_key,
+)
 
 # Load environment variables from root .env
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
@@ -13,11 +19,20 @@ load_dotenv(os.path.join(root_path, ".env"), override=True)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+require_cerebras_api_key()
+ZAI_REASONING_MODEL = get_zai_reasoning_model()
+NON_REASONING_MODEL_PARAMS = get_non_reasoning_model_params()
+GPT_OSS_MODEL = os.environ.get("CEREBRAS_TEST_GPT_OSS_MODEL")
 
+
+@pytest.mark.skipif(
+    not GPT_OSS_MODEL,
+    reason="CEREBRAS_TEST_GPT_OSS_MODEL not set for GPT-OSS-specific reasoning tests",
+)
 def test_gpt_oss_reasoning_content() -> None:
-    """Test gpt-oss-120b reasoning content structure with a challenging problem."""
+    """Test a configured GPT-OSS model exposes reasoning content."""
     llm = ChatCerebras(
-        model="gpt-oss-120b",
+        model=GPT_OSS_MODEL,  # type: ignore[arg-type]
         reasoning_effort="high",
         temperature=0.7,
         max_tokens=500,
@@ -54,10 +69,14 @@ def test_gpt_oss_reasoning_content() -> None:
     assert "reasoning" not in response.additional_kwargs
 
 
+@pytest.mark.skipif(
+    not GPT_OSS_MODEL,
+    reason="CEREBRAS_TEST_GPT_OSS_MODEL not set for GPT-OSS-specific reasoning tests",
+)
 def test_gpt_oss_reasoning_streaming() -> None:
-    """Test gpt-oss-120b reasoning content streaming with a challenging problem."""
+    """Test a configured GPT-OSS model streams reasoning content."""
     llm = ChatCerebras(
-        model="gpt-oss-120b",
+        model=GPT_OSS_MODEL,  # type: ignore[arg-type]
         reasoning_effort="medium",
         temperature=0.7,
         max_tokens=500,
@@ -80,9 +99,9 @@ def test_gpt_oss_reasoning_streaming() -> None:
 
 
 def test_zai_glm_reasoning_content() -> None:
-    """Test zai-glm-4.6 reasoning content structure with a challenging problem."""
+    """Test the configured ZAI reasoning model exposes reasoning content."""
     llm = ChatCerebras(
-        model="zai-glm-4.6",
+        model=ZAI_REASONING_MODEL,
         disable_reasoning=False,
         temperature=0.7,
         max_tokens=500,
@@ -118,9 +137,9 @@ def test_zai_glm_reasoning_content() -> None:
 
 
 def test_zai_glm_reasoning_streaming() -> None:
-    """Test zai-glm-4.6 reasoning content streaming with a challenging problem."""
+    """Test the configured ZAI reasoning model streams reasoning content."""
     llm = ChatCerebras(
-        model="zai-glm-4.6",
+        model=ZAI_REASONING_MODEL,
         disable_reasoning=False,
         temperature=0.7,
         max_tokens=500,
@@ -146,13 +165,9 @@ def test_zai_glm_reasoning_streaming() -> None:
         logger.info(f"Streamed Text: {full_text}")
 
 
-def test_llama_no_reasoning_content() -> None:
-    """Test llama3.3-70b (non-reasoning model) doesn't break."""
-    llm = ChatCerebras(
-        model="llama3.3-70b",
-        temperature=0.7,
-        max_tokens=200,
-    )
+def test_non_reasoning_content() -> None:
+    """Test a configured non-reasoning path returns plain text content."""
+    llm = ChatCerebras(**NON_REASONING_MODEL_PARAMS, temperature=0.7, max_tokens=200)
 
     # Invoke
     response = llm.invoke("What is the capital of France?")
@@ -165,13 +180,9 @@ def test_llama_no_reasoning_content() -> None:
     logger.info(f"Response: {response.content}")
 
 
-def test_llama_no_reasoning_streaming() -> None:
-    """Test llama3.3-70b (non-reasoning model) streaming doesn't break."""
-    llm = ChatCerebras(
-        model="llama3.3-70b",
-        temperature=0.7,
-        max_tokens=200,
-    )
+def test_non_reasoning_streaming() -> None:
+    """Test a configured non-reasoning path streams plain text content."""
+    llm = ChatCerebras(**NON_REASONING_MODEL_PARAMS, temperature=0.7, max_tokens=200)
 
     full_text = ""
 

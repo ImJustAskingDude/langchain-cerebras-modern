@@ -59,3 +59,15 @@ The first manual run should be:
 
 If you prefer, you can add environment protection rules so only approved users
 can deploy to `testpypi` and `pypi`.
+
+## Integration test model selection
+
+The live integration suite defaults to `zai-glm-4.7`. You can override the
+models used in CI with GitHub Actions repository variables:
+
+- `CEREBRAS_TEST_STANDARD_MODEL` for the provider-agnostic LangChain suite
+- `CEREBRAS_TEST_ZAI_MODEL` for ZAI reasoning tests
+- `CEREBRAS_TEST_NON_REASONING_MODEL` for plain-text smoke tests
+- `CEREBRAS_TEST_GPT_OSS_MODEL` to enable GPT-OSS-specific reasoning tests
+
+If `CEREBRAS_TEST_GPT_OSS_MODEL` is unset, the GPT-OSS-only tests are skipped.
