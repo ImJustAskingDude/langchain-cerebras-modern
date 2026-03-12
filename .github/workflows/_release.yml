@@ -135,9 +135,21 @@ jobs:
               "$PKG_NAME==$VERSION" \
           )
 
-          # Replace all dashes in the package name with underscores,
-          # since that's how Python imports packages with dashes in the name.
-          IMPORT_NAME="$(echo "$PKG_NAME" | sed s/-/_/g)"
+          IMPORT_NAME="$(python - <<'PY'
+          import tomllib
+          from pathlib import Path
+
+          pyproject = Path('pyproject.toml')
+          with pyproject.open('rb') as fh:
+              data = tomllib.load(fh)
+
+          packages = data['tool']['poetry'].get('packages', [])
+          if packages:
+              print(packages[0]['include'])
+          else:
+              print(data['tool']['poetry']['name'].replace('-', '_'))
+          PY
+          )"
 
           poetry run python -c "import $IMPORT_NAME; print(dir($IMPORT_NAME))"
 
